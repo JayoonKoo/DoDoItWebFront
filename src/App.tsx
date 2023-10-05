@@ -1,8 +1,9 @@
 import React from 'react';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
-    <div className='text-center'>test</div>
+    <SignupPage />
   );
 }
 
