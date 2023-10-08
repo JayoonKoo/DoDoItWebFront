@@ -10,10 +10,10 @@ export type InputFieldProps = {
 
 const InputField = ({ id, label, type }: InputFieldProps) => {
   return (
-    <>
+    <div className="flex flex-col">
       <Label htmlFor={id}>{label}</Label>
       <Input id={id} type={type} />
-    </>
+    </div>
   );
 };
 
