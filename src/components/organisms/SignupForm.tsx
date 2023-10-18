@@ -15,7 +15,7 @@ const SignupForm = () => {
 
       <div className="mt-2">
         <Button text="회원가입" />
-        <LinkButton to="/">
+        <LinkButton to="../login">
           아이디가 있으신가요? <Bold>로그인</Bold> 으로 가기
         </LinkButton>
       </div>
