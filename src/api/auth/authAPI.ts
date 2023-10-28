@@ -8,7 +8,7 @@ const http = new Http(env.host);
 const authAPI = {
   signUp: async (req: SignUpReq): Promise<SignUpRes> => {
     try {
-      const res = await http.fetch<SignUpRes>('/signup', { method: 'POST', body: JSON.stringify(req) });
+      const res = await http.fetch<SignUpRes>('/auth/signup', { method: 'POST', body: JSON.stringify(req) });
       if (res == null) {
         throw new BodyIsNullException();
       }

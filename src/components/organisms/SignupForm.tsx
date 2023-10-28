@@ -4,6 +4,8 @@ import Button from '../atom/Button';
 import LinkButton from '../atom/LinkButton';
 import Bold from '../atom/Bold';
 import { useForm } from 'react-hook-form';
+import useSignUp from '../../hooks/auth/useSignUp';
+import Exception from '../../api/Exception';
 
 type SignupFormFieldType = {
   email: string;
@@ -15,15 +17,28 @@ type SignupFormFieldType = {
 
 const SignupForm = () => {
   const { register, handleSubmit, formState, setError } = useForm<SignupFormFieldType>();
+  const { signup, isPending } = useSignUp();
 
   const { errors } = formState;
 
-  const onValid = (data: SignupFormFieldType) => {
-    if (data.password !== data.confirmPassword) {
-      setError('password', { message: '비밀번호와 비밀번호 확인이 다릅니다.' }, { shouldFocus: true });
+  const onValid = async (data: SignupFormFieldType) => {
+    const { email, nickname, password, confirmPassword } = data;
+    if (password !== confirmPassword) {
+      return setError('password', { message: '비밀번호와 비밀번호 확인이 다릅니다.' }, { shouldFocus: true });
     }
-    setError('formError', { message: 'Server Error' });
+
+    try {
+      await signup({ email: email, nickname: nickname, password: password });
+    } catch (e) {
+      if (e instanceof Exception) {
+        return;
+      }
+    }
   };
+
+  // if (isPending) {
+  //   return 'loading';
+  // }
 
   return (
     <form onSubmit={handleSubmit(onValid)} className="grid grid-cols-1 gap-4">

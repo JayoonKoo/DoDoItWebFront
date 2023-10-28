@@ -5,14 +5,14 @@ import { useNavigate } from 'react-router-dom';
 
 function useSignUp() {
   const navigate = useNavigate();
-  const signUp = useMutation({
+  const mutation = useMutation({
     mutationFn: async (req: SignUpReq) => await authAPI.signUp(req),
     onSuccess: () => {
       navigate('/auth/login');
     },
   });
 
-  return signUp;
+  return { signup: mutation.mutateAsync, ...mutation };
 }
 
 export default useSignUp;
