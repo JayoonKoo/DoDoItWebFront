@@ -8,18 +8,23 @@ export default class Http {
     this.baseURL = baseURL;
   }
 
-  async fetch<T extends Res<T>>(url: string, options?: RequestInit) {
+  async fetch<S>(url: string, options?: RequestInit) {
     const res = await fetch(`${this.baseURL}${url}`, {
       ...options,
+      body: options && options.body && JSON.stringify(options.body),
       headers: {
         'Content-Type': 'application/json',
         ...options?.headers,
       },
     });
 
-    let data: T | undefined;
+    let data: Res<S> | undefined;
     try {
       data = await res.json();
+      if (data == null) {
+        console.error('data is null');
+        throw new Exception({ code: 500, message: 'Server Error' });
+      }
     } catch (error) {
       console.error(error);
       throw new Exception({ code: 412, message: '알수 없는 에러' });
@@ -31,6 +36,6 @@ export default class Http {
       throw new Exception({ code: status, message });
     }
 
-    return data;
+    return data.body;
   }
 }
