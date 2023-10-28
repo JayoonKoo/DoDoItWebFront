@@ -1,5 +1,3 @@
-import Res from '../type/Res';
-
 // signUp
 export type SignUpReq = {
   email: string;
