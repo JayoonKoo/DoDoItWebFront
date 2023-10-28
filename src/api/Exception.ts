@@ -12,11 +12,9 @@ class Exception extends Error {
   }
 }
 
-export class BodyIsNullException extends Error {
-  code = 500;
-  message = 'Server Error(NullException)';
+export class BodyIsNullException extends Exception {
   constructor() {
-    super();
+    super({ code: 500, message: 'Server Error(NullException)' });
     console.error('body 가 비어있습니다.');
   }
 }
