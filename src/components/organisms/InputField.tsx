@@ -1,4 +1,4 @@
-import React, { Ref, forwardRef } from 'react';
+import React, { forwardRef } from 'react';
 import Label from '../atom/Label';
 import Input from '../atom/Input';
 

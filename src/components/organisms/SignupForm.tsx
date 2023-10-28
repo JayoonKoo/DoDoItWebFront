@@ -24,7 +24,6 @@ const SignupForm = () => {
     }
     setError('formError', { message: 'Server Error' });
   };
-  console.log(errors);
 
   return (
     <form onSubmit={handleSubmit(onValid)} className="grid grid-cols-1 gap-4">
