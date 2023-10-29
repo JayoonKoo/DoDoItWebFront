@@ -1,11 +1,11 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import InputField from './InputField';
 import Button from '../atom/Button';
 import LinkButton from '../atom/LinkButton';
 import Bold from '../atom/Bold';
 import { useForm } from 'react-hook-form';
 import useSignUp from '../../hooks/auth/useSignUp';
-import Exception from '../../api/Exception';
+import AuthException from '../../api/auth/AuthException';
 
 type SignupFormFieldType = {
   email: string;
@@ -17,7 +17,13 @@ type SignupFormFieldType = {
 
 const SignupForm = () => {
   const { register, handleSubmit, formState, setError } = useForm<SignupFormFieldType>();
-  const { signup, isPending } = useSignUp();
+  const { signup, isError, error } = useSignUp();
+
+  useEffect(() => {
+    if (isError && error instanceof AuthException) {
+      alert(error.message);
+    }
+  }, [isError, error?.message]);
 
   const { errors } = formState;
 
@@ -27,18 +33,8 @@ const SignupForm = () => {
       return setError('password', { message: '비밀번호와 비밀번호 확인이 다릅니다.' }, { shouldFocus: true });
     }
 
-    try {
-      await signup({ email: email, nickname: nickname, password: password });
-    } catch (e) {
-      if (e instanceof Exception) {
-        return;
-      }
-    }
+    await signup({ email: email, nickname: nickname, password: password });
   };
-
-  // if (isPending) {
-  //   return 'loading';
-  // }
 
   return (
     <form onSubmit={handleSubmit(onValid)} className="grid grid-cols-1 gap-4">
@@ -48,7 +44,10 @@ const SignupForm = () => {
         label="이메일"
         {...register('email', {
           required: '이메일을 입력해주세요.',
-          pattern: { value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: '이메일 형식이 아닙니다.' },
+          pattern: {
+            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+            message: '이메일 형식이 아닙니다.',
+          },
         })}
         errorMessage={errors?.email?.message}
       />

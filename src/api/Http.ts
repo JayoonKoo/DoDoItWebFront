@@ -11,7 +11,6 @@ export default class Http {
   async fetch<S>(url: string, options?: RequestInit) {
     const res = await fetch(`${this.baseURL}${url}`, {
       ...options,
-      body: options && options.body && JSON.stringify(options.body),
       headers: {
         'Content-Type': 'application/json',
         ...options?.headers,
@@ -21,12 +20,12 @@ export default class Http {
     let data: Res<S> | undefined;
     try {
       data = await res.json();
+      console.log(data);
       if (data == null) {
         console.error('data is null');
         throw new Exception({ code: 500, message: 'Server Error' });
       }
     } catch (error) {
-      console.error(error);
       throw new Exception({ code: 412, message: '알수 없는 에러' });
     }
 

@@ -14,7 +14,6 @@ const authAPI = {
       }
       return res;
     } catch (e) {
-      console.error(e);
       if (e instanceof Exception) {
         if (e.code === 409) {
           throw new AuthException({ message: e.message, type: AuthExceptionType.Duplication });

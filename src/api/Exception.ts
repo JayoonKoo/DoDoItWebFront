@@ -9,6 +9,7 @@ class Exception extends Error {
   constructor({ code, message }: ExceptionConstructor) {
     super(message);
     this.code = code;
+    this.message = message;
   }
 }
 
