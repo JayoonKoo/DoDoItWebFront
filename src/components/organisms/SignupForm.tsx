@@ -5,7 +5,8 @@ import LinkButton from '../atom/LinkButton';
 import Bold from '../atom/Bold';
 import { useForm } from 'react-hook-form';
 import useSignUp from '../../hooks/auth/useSignUp';
-import AuthException from '../../api/auth/AuthException';
+import AuthException, { AuthExceptionType } from '../../api/auth/AuthException';
+import useAlert from '../../hooks/ui/useAlert';
 
 type SignupFormFieldType = {
   email: string;
@@ -18,10 +19,17 @@ type SignupFormFieldType = {
 const SignupForm = () => {
   const { register, handleSubmit, formState, setError } = useForm<SignupFormFieldType>();
   const { signup, isError, error } = useSignUp();
+  const { openAlert } = useAlert();
 
   useEffect(() => {
+    // 회원가입 Error
     if (isError && error instanceof AuthException) {
-      alert(error.message);
+      console.log(error.type);
+      switch (error.type) {
+        case AuthExceptionType.Duplication:
+          console.log('here');
+          openAlert({ title: '오류', text: '로그인 화면으로 이동할까요?', errText: '이미 가입한 회원입니다.' });
+      }
     }
   }, [isError, error?.message]);
 
