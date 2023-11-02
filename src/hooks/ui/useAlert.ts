@@ -8,11 +8,9 @@ export type handleOpenAlertProp = {
   errText?: string;
 };
 
-export type handleCloseAlertProp = {
-  onClosed?: () => void;
-};
+export type OnClosedHandler = () => void;
 
-function useAlert() {
+function useAlert(rootOnCloseHanlder?: OnClosedHandler) {
   const [alert, setAlert] = useRecoilState(alertState);
 
   const handleOpenAlert = useCallback(
@@ -28,14 +26,19 @@ function useAlert() {
   );
 
   const handleCloseAlert = useCallback(
-    ({ onClosed }: handleCloseAlertProp) => {
+    (onClosed?: OnClosedHandler) => {
       setAlert({
         isOpen: false,
         title: '',
       });
-      onClosed && onClosed();
+
+      if (onClosed) {
+        return onClosed();
+      }
+
+      rootOnCloseHanlder && rootOnCloseHanlder();
     },
-    [setAlert]
+    [setAlert, rootOnCloseHanlder]
   );
 
   return {

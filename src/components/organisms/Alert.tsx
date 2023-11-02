@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { ForwardedRef } from 'react';
 import AlertInner from '../atom/AlertInner';
 import useAlert from '../../hooks/ui/useAlert';
 
-const Alert = () => {
+export type AlertProps = {};
+
+const Alert = ({}: AlertProps, ref: ForwardedRef<HTMLDivElement>) => {
   const { alertInfo } = useAlert();
   return (
-    <AlertInner>
+    <AlertInner ref={ref}>
       <div>
         <span>{alertInfo.title}</span>
         {alertInfo.text && <span>{alertInfo.text}</span>}
@@ -16,4 +18,4 @@ const Alert = () => {
   );
 };
 
-export default Alert;
+export default React.forwardRef(Alert);
