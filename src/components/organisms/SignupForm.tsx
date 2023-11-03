@@ -17,7 +17,8 @@ type SignupFormFieldType = {
 };
 
 const SignupForm = () => {
-  const { register, handleSubmit, formState, setError } = useForm<SignupFormFieldType>();
+  const { register, handleSubmit, formState, setError } =
+    useForm<SignupFormFieldType>();
   const { signup, isError, error } = useSignUp();
   const { openAlert } = useAlert();
 
@@ -28,7 +29,11 @@ const SignupForm = () => {
       switch (error.type) {
         case AuthExceptionType.Duplication:
           console.log('here');
-          openAlert({ title: '오류', text: '로그인 화면으로 이동할까요?', errText: '이미 가입한 회원입니다.' });
+          openAlert({
+            title: '오류',
+            text: '로그인 화면으로 이동할까요?',
+            errText: '이미 가입한 회원입니다.',
+          });
       }
     }
   }, [isError, error?.message]);
@@ -38,7 +43,11 @@ const SignupForm = () => {
   const onValid = async (data: SignupFormFieldType) => {
     const { email, nickname, password, confirmPassword } = data;
     if (password !== confirmPassword) {
-      return setError('password', { message: '비밀번호와 비밀번호 확인이 다릅니다.' }, { shouldFocus: true });
+      return setError(
+        'password',
+        { message: '비밀번호와 비밀번호 확인이 다릅니다.' },
+        { shouldFocus: true }
+      );
     }
 
     await signup({ email: email, nickname: nickname, password: password });
@@ -65,7 +74,10 @@ const SignupForm = () => {
         label="비밀번호"
         {...register('password', {
           required: '비밀번호를 입력해주세요.',
-          minLength: { value: 8, message: '비밀번호가 너무 짧습니다.(8자리 이상)' },
+          minLength: {
+            value: 8,
+            message: '비밀번호가 너무 짧습니다.(8자리 이상)',
+          },
         })}
         errorMessage={errors?.password?.message}
       />
@@ -75,7 +87,10 @@ const SignupForm = () => {
         label="비밀번호 확인"
         {...register('confirmPassword', {
           required: '비밀번호 확인을 입력해주세요.',
-          minLength: { value: 8, message: '비밀번호 확인이 너무 짧습니다.(8자리 이상)' },
+          minLength: {
+            value: 8,
+            message: '비밀번호 확인이 너무 짧습니다.(8자리 이상)',
+          },
         })}
         errorMessage={errors?.confirmPassword?.message}
       />

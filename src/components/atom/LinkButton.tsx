@@ -8,7 +8,10 @@ export type LinkButtonProps = {
 
 const LinkButton = ({ children, to }: LinkButtonProps) => {
   return (
-    <Link className="block w-full text-center text-sm mt-1 cursor-pointer" to={to}>
+    <Link
+      className="block w-full text-center text-sm mt-1 cursor-pointer"
+      to={to}
+    >
       {children}
     </Link>
   );
