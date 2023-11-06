@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import InputField from './InputField';
 import Button from '../atom/Button';
 import LinkButton from '../atom/LinkButton';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import useSignUp from '../../hooks/auth/useSignUp';
 import AuthException, { AuthExceptionType } from '../../api/auth/AuthException';
 import useAlert from '../../hooks/ui/useAlert';
+import { useNavigate } from 'react-router-dom';
 
 type SignupFormFieldType = {
   email: string;
@@ -19,8 +20,13 @@ type SignupFormFieldType = {
 const SignupForm = () => {
   const { register, handleSubmit, formState, setError } =
     useForm<SignupFormFieldType>();
-  const { signup, isError, error } = useSignUp();
+  const { signup, isError, error, isSuccess } = useSignUp();
   const { openAlert } = useAlert();
+  const navigate = useNavigate();
+
+  const goLogin = useCallback(() => {
+    navigate('/auth/login');
+  }, [navigate]);
 
   useEffect(() => {
     // 회원가입 Error
@@ -31,12 +37,24 @@ const SignupForm = () => {
           console.log('here');
           openAlert({
             title: '오류',
-            text: '로그인 화면으로 이동할까요?',
-            errText: '이미 가입한 회원입니다.',
+            text: '중복된 회원입니다. 로그인 화면으로 이동할까요?',
+            errText: error.message,
+            onConfirm: goLogin,
           });
       }
     }
-  }, [isError, error?.message]);
+  }, [isError, error, openAlert, goLogin]);
+
+  useEffect(() => {
+    // 회원가입 성공 시
+    if (isSuccess) {
+      openAlert({
+        title: '회원가입 성공',
+        text: '로그인 화면으로 이동할까요?',
+        onConfirm: goLogin,
+      });
+    }
+  }, [isSuccess, openAlert, goLogin]);
 
   const { errors } = formState;
 
@@ -50,7 +68,7 @@ const SignupForm = () => {
       );
     }
 
-    await signup({ email: email, nickname: nickname, password: password });
+    await signup({ email, nickname, password });
   };
 
   return (

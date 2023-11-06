@@ -1,12 +1,28 @@
-import React, { ForwardedRef } from 'react';
+import React, { ForwardedRef, useCallback } from 'react';
 import AlertInner from '../atom/AlertInner';
 import useAlert from '../../hooks/ui/useAlert';
 import Button from '../atom/Button';
 
-export type AlertProps = {};
+export type AlertProps = {
+  alertType?: 'default' | 'info';
+};
 
-const Alert = ({}: AlertProps, ref: ForwardedRef<HTMLDivElement>) => {
-  const { alertInfo } = useAlert();
+const Alert = (
+  { alertType = 'default' }: AlertProps,
+  ref: ForwardedRef<HTMLDivElement>
+) => {
+  const { alertInfo, closeAlert } = useAlert();
+
+  const handleCloseAlert = useCallback(() => {
+    closeAlert();
+    alertInfo.onClose && alertInfo.onClose();
+  }, [closeAlert, alertInfo.onClose]);
+
+  const handleConfirmAlert = useCallback(() => {
+    closeAlert();
+    alertInfo.onConfirm && alertInfo.onConfirm();
+  }, [closeAlert, alertInfo.onConfirm]);
+
   return (
     <div className="fixed top-0 left-0 right-0 bottom-0 bg-gray-400 opacity-30">
       <AlertInner ref={ref}>
@@ -22,7 +38,16 @@ const Alert = ({}: AlertProps, ref: ForwardedRef<HTMLDivElement>) => {
               {alertInfo.errText}
             </span>
           )}
-          <Button className="mt-8" text={'확인'} />
+          <div className={`mt-5 flex ${alertType === 'default' && 'gap-4'}`}>
+            {alertType === 'default' && (
+              <Button
+                text="취소"
+                buttonType="cancel"
+                onClick={handleCloseAlert}
+              />
+            )}
+            <Button text={'확인'} onClick={handleConfirmAlert} />
+          </div>
         </div>
       </AlertInner>
     </div>

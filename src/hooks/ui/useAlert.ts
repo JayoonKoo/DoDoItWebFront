@@ -1,44 +1,46 @@
 import { useRecoilState } from 'recoil';
-import { alertState } from '../../recoil/uiState';
+import { OnCloseType, OnConfirmType, alertState } from '../../recoil/uiState';
 import { useCallback } from 'react';
 
 export type handleOpenAlertProp = {
   title: string;
   text?: string;
   errText?: string;
+  onConfirm?: OnConfirmType;
+  onClose?: OnCloseType;
 };
 
-export type OnClosedHandler = () => void;
-
-function useAlert(rootOnCloseHanlder?: OnClosedHandler) {
+function useAlert() {
   const [alert, setAlert] = useRecoilState(alertState);
 
   const handleOpenAlert = useCallback(
-    ({ text, errText, title }: handleOpenAlertProp) => {
+    ({ text, errText, title, onConfirm, onClose }: handleOpenAlertProp) => {
       setAlert({
         isOpen: true,
         title,
         text,
         errText,
+        onConfirm,
+        onClose,
       });
     },
     [setAlert]
   );
 
   const handleCloseAlert = useCallback(
-    (onClosed?: OnClosedHandler) => {
+    (onClose?: OnCloseType) => {
       setAlert({
         isOpen: false,
         title: '',
       });
 
-      if (onClosed) {
-        return onClosed();
+      if (onClose) {
+        return onClose();
       }
 
-      rootOnCloseHanlder && rootOnCloseHanlder();
+      alert.onClose && alert.onClose();
     },
-    [setAlert, rootOnCloseHanlder]
+    [setAlert, alert]
   );
 
   return {
