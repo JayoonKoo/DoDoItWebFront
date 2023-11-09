@@ -10,13 +10,16 @@ function useSignUp() {
     },
   });
 
-  const signup = useCallback(async (req: SignUpReq) => {
-    try {
-      await mutation.mutateAsync(req);
-    } catch (e) {
-      console.error(e);
-    }
-  }, []);
+  const signup = useCallback(
+    async (req: SignUpReq) => {
+      try {
+        await mutation.mutateAsync(req);
+      } catch (e) {
+        console.error(e);
+      }
+    },
+    [mutation]
+  );
 
   return { signup, ...mutation };
 }

@@ -23,3 +23,16 @@ export const alertState = atom({
   key: 'alertState',
   default: alertInitialState,
 });
+
+type LoadingStateType = {
+  isLoading: boolean;
+};
+
+const loadingInitialState: LoadingStateType = {
+  isLoading: false,
+};
+
+export const loadingState = atom({
+  key: 'loadingState',
+  default: loadingInitialState,
+});

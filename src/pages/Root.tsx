@@ -3,9 +3,12 @@ import { Outlet } from 'react-router-dom';
 import Alert from '../components/organisms/Alert';
 import useAlert from '../hooks/ui/useAlert';
 import useOutsideClick from '../hooks/ui/useOutsideClick';
+import useLoading from '../hooks/ui/useLoading';
+import Spinner from '../components/atom/Spinner';
 
 const Root = () => {
   const { alertInfo, closeAlert } = useAlert();
+  const { loading } = useLoading();
   const alertRef = useRef<HTMLDivElement>(null);
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -17,6 +20,7 @@ const Root = () => {
   return (
     <>
       <Outlet />
+      {loading.isLoading && <Spinner />}
       {alertInfo.isOpen && <Alert ref={alertRef} />}
     </>
   );
