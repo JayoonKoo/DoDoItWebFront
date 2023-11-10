@@ -5,7 +5,11 @@ type Layout1Props = {
 };
 
 const Layout1 = ({ children }: Layout1Props) => {
-  return <div className="bg-gray-50 h-screen flex justify-center items-center">{children}</div>;
+  return (
+    <div className="bg-gray-50 h-screen flex justify-center items-center">
+      {children}
+    </div>
+  );
 };
 
 type TitleProps = {
@@ -13,14 +17,20 @@ type TitleProps = {
 };
 
 Layout1.Title = ({ children }: TitleProps) => {
-  return <div className="absolute left-1/2 -translate-x-1/2 -top-24">{children}</div>;
+  return (
+    <div className="absolute left-1/2 -translate-x-1/2 -top-24">{children}</div>
+  );
 };
 
 type CenterCardProps = {
   children: React.ReactNode;
 };
 Layout1.CenterCard = ({ children }: CenterCardProps) => {
-  return <div className="bg-white p-16 rounded-md shadow-sm relative">{children}</div>;
+  return (
+    <div className="bg-white p-16 rounded-md shadow-sm relative">
+      {children}
+    </div>
+  );
 };
 
 export const EXLayout1 = () => {

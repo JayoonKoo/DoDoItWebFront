@@ -34,7 +34,6 @@ const SignupForm = () => {
       console.log(error.type);
       switch (error.type) {
         case AuthExceptionType.Duplication:
-          console.log('here');
           openAlert({
             title: '오류',
             text: '중복된 회원입니다. 로그인 화면으로 이동할까요?',
