@@ -1,5 +1,10 @@
 import { useRecoilState } from 'recoil';
-import { OnCloseType, OnConfirmType, alertState } from '../../recoil/uiState';
+import {
+  AlertType,
+  OnCloseType,
+  OnConfirmType,
+  alertState,
+} from '../../recoil/uiState';
 import { useCallback } from 'react';
 
 export type handleOpenAlertProp = {
@@ -8,13 +13,21 @@ export type handleOpenAlertProp = {
   errText?: string;
   onConfirm?: OnConfirmType;
   onClose?: OnCloseType;
+  type?: AlertType;
 };
 
 function useAlert() {
   const [alert, setAlert] = useRecoilState(alertState);
 
   const handleOpenAlert = useCallback(
-    ({ text, errText, title, onConfirm, onClose }: handleOpenAlertProp) => {
+    ({
+      text,
+      errText,
+      title,
+      onConfirm,
+      onClose,
+      type = 'default',
+    }: handleOpenAlertProp) => {
       setAlert({
         isOpen: true,
         title,
@@ -22,6 +35,7 @@ function useAlert() {
         errText,
         onConfirm,
         onClose,
+        type,
       });
     },
     [setAlert]
@@ -32,6 +46,7 @@ function useAlert() {
       setAlert({
         isOpen: false,
         title: '',
+        type: 'default',
       });
 
       if (onClose) {

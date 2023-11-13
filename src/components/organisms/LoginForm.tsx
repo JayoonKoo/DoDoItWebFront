@@ -30,6 +30,7 @@ const LoginForm = () => {
             title: '오류',
             text: '회원 정보가 일치하지 않습니다.',
             errText: error.message,
+            type: 'info',
           });
       }
     }

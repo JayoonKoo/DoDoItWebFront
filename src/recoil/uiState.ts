@@ -1,7 +1,9 @@
 import { atom } from 'recoil';
 
+// Alert State
 export type OnCloseType = () => void;
 export type OnConfirmType = () => void;
+export type AlertType = 'default' | 'info';
 
 type AlertInitialStateType = {
   isOpen: boolean;
@@ -10,6 +12,7 @@ type AlertInitialStateType = {
   errText?: string;
   onClose?: OnCloseType;
   onConfirm?: OnConfirmType;
+  type: AlertType;
 };
 
 const alertInitialState: AlertInitialStateType = {
@@ -17,6 +20,7 @@ const alertInitialState: AlertInitialStateType = {
   title: '',
   text: '',
   errText: '',
+  type: 'default',
 };
 
 export const alertState = atom({
@@ -24,6 +28,7 @@ export const alertState = atom({
   default: alertInitialState,
 });
 
+// Loading State
 type LoadingStateType = {
   isLoading: boolean;
 };

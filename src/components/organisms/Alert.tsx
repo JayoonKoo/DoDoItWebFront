@@ -3,14 +3,7 @@ import AlertInner from '../atom/AlertInner';
 import useAlert from '../../hooks/ui/useAlert';
 import Button from '../atom/Button';
 
-export type AlertProps = {
-  alertType?: 'default' | 'info';
-};
-
-const Alert = (
-  { alertType = 'default' }: AlertProps,
-  ref: ForwardedRef<HTMLDivElement>
-) => {
+const Alert = ({}, ref: ForwardedRef<HTMLDivElement>) => {
   const { alertInfo, closeAlert } = useAlert();
 
   const handleCloseAlert = useCallback(() => {
@@ -38,8 +31,10 @@ const Alert = (
               {alertInfo.errText}
             </span>
           )}
-          <div className={`mt-5 flex ${alertType === 'default' && 'gap-4'}`}>
-            {alertType === 'default' && (
+          <div
+            className={`mt-5 flex ${alertInfo.type === 'default' && 'gap-4'}`}
+          >
+            {alertInfo.type === 'default' && (
               <Button
                 text="취소"
                 buttonType="cancel"
