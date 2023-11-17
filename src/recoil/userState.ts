@@ -9,15 +9,10 @@ export class User {
   }
 }
 
-export type UserInitialType = {
-  user: User | null;
-};
+export type UserInitialType = User | null;
+const userInitialState: UserInitialType = null;
 
-const userInitialState: UserInitialType = {
-  user: null,
-};
-
-export const userState = atom({
+export const userState = atom<UserInitialType>({
   key: 'userState',
   default: userInitialState,
 });
