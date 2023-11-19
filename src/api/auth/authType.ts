@@ -20,3 +20,9 @@ export type LoginRes = {
   nickname: string;
   token: string;
 };
+
+// me
+export type MeRes = {
+  token: string;
+  nickname: string;
+};

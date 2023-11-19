@@ -2,7 +2,7 @@ import env from '../../env';
 import Exception, { BodyIsNullException } from '../Exception';
 import Http from '../Http';
 import AuthException, { AuthExceptionType } from './AuthException';
-import { LoginReq, LoginRes, SignUpReq, SignUpRes } from './authType';
+import { LoginReq, LoginRes, MeRes, SignUpReq, SignUpRes } from './authType';
 
 const http = new Http(env.host);
 const authAPI = {
@@ -46,6 +46,32 @@ const authAPI = {
             message: e.message,
             type: AuthExceptionType.PasswordOrIdNotMatch,
           });
+        }
+      }
+      throw e;
+    }
+  },
+
+  me: async (): Promise<MeRes> => {
+    try {
+      const res = await http.fetch<MeRes>('/auth/me');
+      if (res == null) {
+        throw new BodyIsNullException();
+      }
+      return res;
+    } catch (e) {
+      if (e instanceof Exception) {
+        switch (e.code) {
+          case 401:
+            throw new AuthException({
+              message: e.message,
+              type: AuthExceptionType.InvalidToken,
+            });
+          case 404:
+            throw new AuthException({
+              message: e.message,
+              type: AuthExceptionType.NoUser,
+            });
         }
       }
       throw e;
