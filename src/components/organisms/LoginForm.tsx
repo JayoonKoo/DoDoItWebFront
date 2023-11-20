@@ -39,7 +39,7 @@ const LoginForm = () => {
   useEffect(() => {
     // 로그인 성공시
     if (isSuccess) {
-      navigate('/main');
+      navigate('/');
     }
   }, [isSuccess, navigate]);
 

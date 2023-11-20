@@ -4,6 +4,7 @@ import SignupPage from './pages/auth/SignupPage';
 import Root from './pages/Root';
 import LoginPage from './pages/auth/LoginPage';
 import Main from './pages/Main';
+import ProtectedRouter from './components/atom/ProtectedRouter';
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,11 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Main />,
+        element: (
+          <ProtectedRouter>
+            <Main />
+          </ProtectedRouter>
+        ),
       },
       {
         path: '/auth',

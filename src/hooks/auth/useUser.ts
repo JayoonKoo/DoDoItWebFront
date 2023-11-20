@@ -1,10 +1,14 @@
 import { useRecoilState } from 'recoil';
-import { userState } from '../../recoil/userState';
-import { useEffect } from 'react';
+import { User, userState } from '../../recoil/userState';
+import { useCallback, useEffect } from 'react';
 import authAPI from '../../api/auth/authAPI';
 
 function useUser() {
-  const [user, setUser] = useRecoilState(userState);
+  const [userInfo, setUserInfo] = useRecoilState(userState);
+
+  const setUser = useCallback((user: User | null) => {
+    setUserInfo({ user, isLoading: false });
+  }, []);
 
   useEffect(() => {
     authAPI
@@ -17,7 +21,7 @@ function useUser() {
   }, [setUser]);
 
   return {
-    user,
+    userInfo,
     setUser,
   };
 }

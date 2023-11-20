@@ -9,8 +9,14 @@ export class User {
   }
 }
 
-export type UserInitialType = User | null;
-const userInitialState: UserInitialType = null;
+export type UserInitialType = {
+  user: User | null;
+  isLoading: boolean;
+};
+const userInitialState: UserInitialType = {
+  user: null,
+  isLoading: true,
+};
 
 export const userState = atom<UserInitialType>({
   key: 'userState',

@@ -19,7 +19,6 @@ function useLogin() {
       try {
         const { nickname, token } = await mutation.mutateAsync(req);
         const user = new User(nickname, token);
-        localStorage.setItem('token', token);
         setUser(user);
       } catch (e) {
         console.error(e);

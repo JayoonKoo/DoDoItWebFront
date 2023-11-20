@@ -7,13 +7,17 @@ export type ProtectedRouterProps = {
 };
 
 const ProtectedRouter = ({ children }: ProtectedRouterProps) => {
-  const { user } = useUser();
+  const { userInfo } = useUser();
 
-  if (!user) {
+  if (userInfo.isLoading) {
+    return <></>;
+  }
+
+  if (!userInfo.user) {
     return <Navigate to="/auth/login" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
 export default ProtectedRouter;

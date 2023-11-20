@@ -15,6 +15,7 @@ export default class Http {
         'Content-Type': 'application/json',
         ...options?.headers,
       },
+      credentials: 'include',
     });
 
     let data: Res<S> | undefined;

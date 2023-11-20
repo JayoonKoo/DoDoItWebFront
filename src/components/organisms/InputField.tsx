@@ -17,7 +17,9 @@ const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
       <div className="flex flex-col">
         {label && <Label htmlFor={id}>{label}</Label>}
         <Input id={id} type={type} {...rest} ref={inputRef} isError={isError} />
-        {errorMessage && <span className="text-red-400 text-sm mt-1">{errorMessage}</span>}
+        {errorMessage && (
+          <span className="text-red-400 text-sm mt-1">{errorMessage}</span>
+        )}
       </div>
     );
   }
