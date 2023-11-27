@@ -5,13 +5,13 @@ import Root from './pages/Root';
 import LoginPage from './pages/auth/LoginPage';
 import Main from './pages/Main';
 import ProtectedRouter from './components/atom/ProtectedRouter';
-import NotFound from './pages/NotFound';
+import ErrorBound from './pages/ErrorBound';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
-    errorElement: <NotFound />,
+    errorElement: <ErrorBound />,
     children: [
       {
         index: true,
